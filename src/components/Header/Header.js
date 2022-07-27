@@ -1,72 +1,128 @@
 import React from 'react';
 import styled from 'styled-components/macro';
+import { Menu, Search, User } from 'react-feather';
 
-import { COLORS, WEIGHTS } from '../../constants';
+import { QUERIES } from '../../constants';
+
+import MaxWidthWrapper from '../MaxWidthWrapper';
 import Logo from '../Logo';
-import SuperHeader from '../SuperHeader';
-import MobileMenu from '../MobileMenu';
+import Button from '../Button';
 
 const Header = () => {
-  const [showMobileMenu, setShowMobileMenu] = React.useState(false);
-
-  // For our mobile hamburger menu, we'll want to use a button
-  // with an onClick handler, something like this:
-  //
-  // <button onClick={() => setShowMobileMenu(true)}>
-
   return (
     <header>
-      <SuperHeader />
+      <SuperHeader>
+        <Row>
+          <ActionGroup>
+            <button>
+              <Search size={24} />
+            </button>
+            <button>
+              <Menu size={24} />
+            </button>
+          </ActionGroup>
+          <ActionGroup>
+            <button>
+              <User size={24} />
+            </button>
+          </ActionGroup>
+        </Row>
+      </SuperHeader>
       <MainHeader>
-        <Side>
-          <Logo />
-        </Side>
-        <Nav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
-        </Nav>
-        <Side />
+        <DesktopActionGroup>
+          <button>
+            <Search size={24} />
+          </button>
+          <button>
+            <Menu size={24} />
+          </button>
+        </DesktopActionGroup>
+        <Logo />
+        <SubscribeWrapper>
+          <Button>Subscribe</Button>
+          <Sublink href="/">Already a Subscriber?</Sublink>
+        </SubscribeWrapper>
       </MainHeader>
-
-      <MobileMenu
-        isOpen={showMobileMenu}
-        onDismiss={() => setShowMobileMenu(false)}
-      />
     </header>
   );
 };
 
-const MainHeader = styled.div`
+const SuperHeader = styled.div`
+  padding: 16px 0;
+  background: var(--color-gray-900);
+  color: white;
+
+  @media ${QUERIES.laptopAndUp} {
+    display: none;
+  }
+`;
+
+const Row = styled(MaxWidthWrapper)`
   display: flex;
-  align-items: baseline;
-  padding: 18px 32px;
-  height: 72px;
-  border-bottom: 1px solid ${COLORS.gray[300]};
+  justify-content: space-between;
 `;
 
-const Nav = styled.nav`
+const ActionGroup = styled.div`
   display: flex;
-  gap: 48px;
-  margin: 0px 48px;
+  gap: 24px;
+
+  /*
+    FIX: Remove the inline spacing that comes with
+    react-feather icons.
+  */
+  svg {
+    display: block;
+  }
 `;
 
-const Side = styled.div`
-  flex: 1;
+const DesktopActionGroup = styled(ActionGroup)`
+  display: none;
+
+  @media ${QUERIES.laptopAndUp} {
+    display: flex;
+  }
 `;
 
-const NavLink = styled.a`
-  font-size: 1.125rem;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: ${COLORS.gray[900]};
-  font-weight: ${WEIGHTS.medium};
+const SubscribeWrapper = styled.div`
+  justify-self: end;
+  display: none;
 
-  &:first-of-type {
-    color: ${COLORS.secondary};
+  @media ${QUERIES.laptopAndUp} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: end;
+    gap: 8px;
+  }
+`;
+
+const Sublink = styled.a`
+  font-size: 0.875rem;
+  color: var(--color-gray-900);
+  font-style: italic;
+  text-decoration: underline;
+`;
+
+const MainHeader = styled(MaxWidthWrapper)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 32px;
+  margin-bottom: 48px;
+
+  @media ${QUERIES.tabletAndUp} {
+    margin-top: 48px;
+    margin-bottom: 72px;
+  }
+
+  @media ${QUERIES.laptopAndUp} {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    justify-content: revert;
+    justify-items: start;
+    margin-top: 16px;
+    margin-bottom: 72px;
   }
 `;
 

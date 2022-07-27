@@ -1,24 +1,24 @@
 import React from 'react';
-import styled from 'styled-components/macro';
 
 import Header from '../Header';
-import ShoeIndex from '../ShoeIndex';
+import MaxWidthWrapper from '../MaxWidthWrapper';
+import Footer from '../Footer';
+import Spacer from '../Spacer';
+import MainStoryGrid from '../MainStoryGrid';
+import SpecialtyStoryGrid from '../SpecialtyStoryGrid';
 
 const App = () => {
-  const [sortId, setSortId] = React.useState('newest');
-
   return (
     <>
       <Header />
-      <Main>
-        <ShoeIndex sortId={sortId} setSortId={setSortId} />
-      </Main>
+      <MaxWidthWrapper as="main">
+        <MainStoryGrid />
+        <SpecialtyStoryGrid />
+      </MaxWidthWrapper>
+      <Spacer size={64} />
+      <Footer />
     </>
   );
 };
-
-const Main = styled.main`
-  padding: 64px 32px;
-`;
 
 export default App;
